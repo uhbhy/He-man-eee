@@ -12,6 +12,8 @@ from app.models.user import User
 from app.schemas.wishlist import WishlistItemCreate, WishlistItemResponse
 from app.middleware.auth_middleware import get_current_user
 
+from app.services.email_service import send_partner_email
+
 router = APIRouter(prefix="/wishlist", tags=["wishlist"])
 
 @router.get("", response_model=List[WishlistItemResponse])
@@ -62,6 +64,7 @@ async def create_wishlist_item(
         .where(WishlistItem.id == item.id)
     )
     db_item = result.scalar_one()
+    send_partner_email(current_user, "wishlist", {"title": payload.title, "detail": payload.description})
     return db_item
 
 @router.patch("/{id}/done", response_model=WishlistItemResponse)

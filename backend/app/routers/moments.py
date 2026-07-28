@@ -79,11 +79,15 @@ async def upload_moment(
         .where(Moment.id == moment.id)
     )
     db_moment = result.scalar_one()
-    subject = f"{current_user.display_name} uploaded a new moment"
-    body = f"{current_user.display_name} just uploaded a new {media_type}."
-    if caption:
-        body += f" Caption: {caption}"
-    send_partner_email(current_user, subject, body)
+    send_partner_email(
+        current_user,
+        "moment",
+        {
+            "caption": caption,
+            "image_url": media_url if media_type == "photo" else None,
+            "media_type": media_type
+        }
+    )
     return db_moment
 
 @router.get("", response_model=List[MomentResponse])

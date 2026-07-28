@@ -60,11 +60,7 @@ async def create_or_update_mood(
         )
         checkin = result.scalar_one()
 
-    subject = f"{current_user.display_name} updated their mood"
-    body = f"{current_user.display_name} checked in feeling {payload.mood} today."
-    if payload.note:
-        body += f" Note: {payload.note}"
-    send_partner_email(current_user, subject, body)
+    send_partner_email(current_user, "mood", {"mood": payload.mood, "note": payload.note})
     return _enrich(checkin)
 
 

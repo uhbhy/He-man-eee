@@ -24,9 +24,7 @@ async def trigger_partner_notification(
             detail="Invalid notification type. Must be 'hug' or 'kiss'."
         )
 
-    subject = f"{current_user.display_name} sent you a {notification_type}"
-    body = f"{current_user.display_name} just sent you a virtual {notification_type}. Go check on them and send some love back."
-    success = send_partner_email(current_user, subject, body)
+    success = send_partner_email(current_user, notification_type, {"detail": payload.get("note")})
     if not success:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
