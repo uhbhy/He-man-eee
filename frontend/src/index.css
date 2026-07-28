@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-romantic-rose: #F43F5E;
+  --color-romantic-cream: #FFF9F5;
+  --color-romantic-gray: #4A4A4A;
+  --color-romantic-gold: #F59E0B;
+  --color-romantic-roseLight: #FFE4E6;
+  --color-romantic-roseLightest: #FFF1F2;
+  --color-romantic-pink: #FDA4AF;
+  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+/* Custom 3D Card Flipping CSS Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Base modifications */
+body {
+  background-color: var(--color-romantic-cream);
+  color: var(--color-romantic-gray);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
