@@ -1,3 +1,4 @@
+import socket
 import smtplib
 from email.message import EmailMessage
 
@@ -40,8 +41,14 @@ def send_partner_email(sender: User, subject: str, body: str) -> bool:
     message.set_content(body)
 
     try:
-        with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT, timeout=10) as smtp:
+        # Resolve hostname strictly to IPv4 to bypass Render free tier IPv6 network unreachable errors
+        addr_info = socket.getaddrinfo(settings.SMTP_HOST, settings.SMTP_PORT, socket.AF_INET, socket.SOCK_STREAM)
+        ipv4_host = addr_info[0][4][0]
+
+        with smtplib.SMTP(ipv4_host, settings.SMTP_PORT, timeout=10) as smtp:
+            smtp.ehlo(settings.SMTP_HOST)
             smtp.starttls()
+            smtp.ehlo(settings.SMTP_HOST)
             smtp.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
             smtp.send_message(message)
     except Exception as exc:
@@ -49,3 +56,4 @@ def send_partner_email(sender: User, subject: str, body: str) -> bool:
         return False
 
     return True
+
