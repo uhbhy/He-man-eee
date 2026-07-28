@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = Field(default="supersecretkeyhere")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=1440)
     CORS_ORIGINS: str = Field(default="http://localhost:5173")
+    RESEND_API_KEY: str = Field(default="")
+    RESEND_FROM_EMAIL: str = Field(default="onboarding@resend.dev")
     SMTP_HOST: str = Field(default="smtp.gmail.com")
     SMTP_PORT: int = Field(default=587)
     SMTP_USERNAME: str = Field(default="")
